@@ -3,7 +3,7 @@
 $mysqli = new mysqli();
 
 // Mi connetto al database locale inserendo i dati corretti
-$mysqli->connect("localhost", "root","davide", "Computer Shop");
+$mysqli->connect("localhost", "cadoniAngelo","scimpanze72", "amm2014_cadoniAngelo");
 
 // Verifico la presenza di errori, se correct_errno != 0 significa che c'è qualcosa che non va
 if($mysqli->connect_errno != 0)
