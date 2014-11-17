@@ -1,0 +1,70 @@
+body
+{
+	font: 14px Arial, Helvetica, sans-serif;
+}
+
+div
+{
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+#nomelogo
+{
+	float: left;
+}
+
+#main
+{
+	width: 1000px;
+	height: 500px;
+	margin: auto;
+	background-color: #b0c4de;
+}
+
+#login
+{
+	float: right;
+	margin: 5px;
+}
+
+label
+{
+	float: left;
+}
+
+li 
+{
+    list-style: none outside none;
+    display: inline-block;
+    margin: 0px 5px;
+    padding: 5px;
+    background-color: #9E1616;
+    border-left: 1px solid #1C345A;
+    text-align: center;
+}
+
+#username, #password
+{
+	float: right;
+}
+
+#logo
+{
+	height: 100px;
+	width: 100%;
+}
+
+#leftbar
+{
+	float: left;
+	width: 150px;
+	height: 100%;
+}
+
+#content
+{
+	float: center;
+	margin-left: 150px;
+}
