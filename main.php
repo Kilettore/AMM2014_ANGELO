@@ -32,7 +32,7 @@ else
 		echo "<ul>\n";
 		while($row = $result->fetch_row())
 		{
-			echo "<li> $row[0] </li>\n";
+			echo "<li> $row </li>\n";
 		}
 		echo "</ul>\n";
 	}
