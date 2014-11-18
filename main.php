@@ -29,22 +29,23 @@ else
 	else
 	{
 		// La query è stata eseguita correttamente
-		echo "<ul>\n";
+		
 		while($row = $result->fetch_object())
 		{
-			echo "<li> $row->nome
-                                   $row->tipologia
-                                   $row->schermo
-                                   $row->ram
-                                   $row->cpu
-                                   $row->hard_disk
-                                   $row->os
-                                   $row->descrizione
-                                   $row->art_disponibili
-                                   $row->prezzo
-                              </li>\n";
-		}
-		echo "</ul>\n";
+			echo "
+                        <table width=500 height=100 border=1>
+                        <tr> $row->nome </tr>
+                        <tr><td> $row->tipologia </td><td> $row->schermo </td></tr>
+                        <tr> $row->ram </tr>
+                        <tr> $row->cpu </tr>
+                        <tr> $row->hard_disk </tr>
+                        <tr> $row->os </tr>
+                        <tr> $row->descrizione </tr>
+                        <tr> $row->art_disponibili </tr>
+                        <tr> $row->prezzo </tr>
+                        </table>
+                        \n\n";
+                }
 	}
 }
 
