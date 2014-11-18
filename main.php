@@ -32,9 +32,9 @@ else
 		echo "<ul>\n";
 		while($row = $result->fetch_object())
 		{
-			echo "<li> $row->nome 
-                                   $row->tipologia 
-                                   $row->schermo 
+			echo "<li> $row->nome
+                                   $row->tipologia
+                                   $row->schermo
                                    $row->ram
                                    $row->cpu
                                    $row->hard_disk
