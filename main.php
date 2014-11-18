@@ -18,7 +18,7 @@ if($mysqli->connect_errno != 0)
 }
 else
 {
-	echo "collegamento al db riuscito";
+	// Collegamento al database riuscito
 	$query = "SELECT * FROM prodotto";
 	$result = $mysqli->query($query);
 	if($mysqli->errno > 0)
@@ -34,15 +34,15 @@ else
 		{
 			echo "
                         <table width=500 height=100 border=1>
-                        <tr><b>Nome:</b> $row->nome </tr>
+                        <tr><td><b>Nome:</b> $row->nome </td></tr>
                         <tr><td><b>Tipo:</b> $row->tipologia </td><td><b>Schermo:</b> $row->schermo </td></tr>
-                        <tr><b>Ram:</b> $row->ram </tr>
-                        <tr><b>Cpu:</b> $row->cpu </tr>
-                        <tr><b>Hard Disk:</b> $row->hard_disk </tr>
-                        <tr><b>Sistema Operativo:</b> $row->os </tr>
-                        <tr><b>Descrizione:</b> $row->descrizione </tr>
-                        <tr><b>Quantità disponibile:</b> $row->art_disponibili </tr>
-                        <tr><b>Prezzo:</b> $row->prezzo </tr>
+                        <tr><td><b>Ram:</b> $row->ram </td></tr>
+                        <tr><td><b>Cpu:</b> $row->cpu </td></tr>
+                        <tr><td><b>Hard Disk:</b> $row->hard_disk </td></tr>
+                        <tr><td><b>Sistema Operativo:</b> $row->os </td></tr>
+                        <tr><td><b>Descrizione:</b> $row->descrizione </td></tr>
+                        <tr><td><b>Quantità disponibile:</b> $row->art_disponibili </td></tr>
+                        <tr><td><b>Prezzo:</b> $row->prezzo </td></tr>
                         </table>
                         \n\n";
                 }
