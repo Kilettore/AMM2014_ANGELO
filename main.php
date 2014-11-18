@@ -19,7 +19,7 @@ if($mysqli->connect_errno != 0)
 else
 {
 	echo "collegamento al db riuscito";
-	$query = "SELECT * FROM prodotti";
+	$query = "SELECT * FROM prodotto";
 	$result = $mysqli->query($query);
 	if($mysqli->errno > 0)
 	{
