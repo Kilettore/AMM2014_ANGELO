@@ -33,16 +33,16 @@ else
 		while($row = $result->fetch_object())
 		{
 			echo "
-                        <table width=500 height=100 border=1>
-                        <tr><td><b>Nome:</b> $row->nome </td></tr>
+                        <table width=500 height=100 border=3>
+                        <tr><td colspan = 2><b>Nome:</b> $row->nome </td></tr>
                         <tr><td><b>Tipo:</b> $row->tipologia </td><td><b>Schermo:</b> $row->schermo </td></tr>
-                        <tr><td><b>Ram:</b> $row->ram </td></tr>
-                        <tr><td><b>Cpu:</b> $row->cpu </td></tr>
-                        <tr><td><b>Hard Disk:</b> $row->hard_disk </td></tr>
-                        <tr><td><b>Sistema Operativo:</b> $row->os </td></tr>
-                        <tr><td><b>Descrizione:</b> $row->descrizione </td></tr>
-                        <tr><td><b>Quantità disponibile:</b> $row->art_disponibili </td></tr>
-                        <tr><td><b>Prezzo:</b> $row->prezzo </td></tr>
+                        <tr><td colspan = 2><b>Ram:</b> $row->ram </td></tr>
+                        <tr><td colspan = 2><b>Cpu:</b> $row->cpu </td></tr>
+                        <tr><td colspan = 2><b>Hard Disk:</b> $row->hard_disk </td></tr>
+                        <tr><td colspan = 2><b>Sistema Operativo:</b> $row->os </td></tr>
+                        <tr><td colspan = 2><b>Descrizione:</b> $row->descrizione </td></tr>
+                        <tr><td colspan = 2><b>Quantità disponibile:</b> $row->art_disponibili </td></tr>
+                        <tr><td colspan = 2><b>Prezzo:</b> $row->prezzo </td></tr>
                         </table>
                         \n\n";
                 }
