@@ -34,15 +34,15 @@ else
 		{
 			echo "
                         <table width=500 height=100 border=1>
-                        <tr> $row->nome </tr>
-                        <tr><td> $row->tipologia </td><td> $row->schermo </td></tr>
-                        <tr> $row->ram </tr>
-                        <tr> $row->cpu </tr>
-                        <tr> $row->hard_disk </tr>
-                        <tr> $row->os </tr>
-                        <tr> $row->descrizione </tr>
-                        <tr> $row->art_disponibili </tr>
-                        <tr> $row->prezzo </tr>
+                        <tr><b>Nome:</b> $row->nome </tr>
+                        <tr><td><b>Tipo:</b> $row->tipologia </td><td><b>Schermo:</b> $row->schermo </td></tr>
+                        <tr><b>Ram:</b> $row->ram </tr>
+                        <tr><b>Cpu:</b> $row->cpu </tr>
+                        <tr><b>Hard Disk:</b> $row->hard_disk </tr>
+                        <tr><b>Sistema Operativo:</b> $row->os </tr>
+                        <tr><b>Descrizione:</b> $row->descrizione </tr>
+                        <tr><b>Quantità disponibile:</b> $row->art_disponibili </tr>
+                        <tr><b>Prezzo:</b> $row->prezzo </tr>
                         </table>
                         \n\n";
                 }
