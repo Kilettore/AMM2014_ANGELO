@@ -14,7 +14,7 @@
     <title><?= $vd->getTitle() ?></title>
     <base href="<?= Impostazioni::getApplicationPath() ?>php/"/>
     
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
    
     
         
