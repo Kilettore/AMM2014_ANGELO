@@ -3,7 +3,9 @@
 $mysqli = new mysqli();
 
 // Mi connetto al database locale inserendo i dati corretti
-$mysqli->connect("localhost", "cadoniAngelo", "scimpanze72", "amm14_cadoniAngelo");
+
+// Da usare quando il sito è online $mysqli->connect("localhost", "cadoniAngelo", "scimpanze72", "amm14_cadoniAngelo");
+$mysqli->connect("localhost", "root", "davide", "amm14_cadoniAngelo");
 
 // Verifico la presenza di errori, se correct_errno != 0 significa che c'è qualcosa che non va
 if($mysqli->connect_errno != 0)
@@ -52,5 +54,3 @@ else
 //Chiudo la connessione al database
 $mysqli->close();
 ?>
-
- 
