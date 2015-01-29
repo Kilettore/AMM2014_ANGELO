@@ -49,9 +49,7 @@ class ControllerBase
             }
             
         }*/
-        echo "info utili<br>";
-        echo $request["login_utente"];
-        echo "fine info<br>";
+        
         if (isset($request["login_utente"])) 
         {
             $username = isset($request['username']) ? $request['username'] : '';
