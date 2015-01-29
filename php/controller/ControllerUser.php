@@ -29,7 +29,7 @@ class ControllerUser extends ControllerBase
      */
     public function handleInput(&$request) 
     {
-        echo "controller user<br>";
+        
         // creo il descrittore della vista
         $vd = new ViewDescriptor();
 
@@ -44,12 +44,27 @@ class ControllerUser extends ControllerBase
         // direttamente in questo switch, sono quelle che vengono poi lette
         // dalla vista, ed utilizzano le classi del modello
 
-        if (!$this->loggedIn()) {
+        if (!$this->loggedIn()) 
+        {
             // utente non autenticato, rimando alla home
 
             $this->showLoginPage($vd);
-        } else {
+        } 
+        else 
+        {
+            
+
             // utente autenticato
+
+            if (isset($request["logout"])) 
+            {
+                        $this->logout($vd);
+            }
+            
+            
+            
+            
+            
             $user = UserFactory::instance()->cercaUtentePerId(
                             $_SESSION[BaseController::user], $_SESSION[BaseController::role]);
 

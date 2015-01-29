@@ -34,58 +34,33 @@ class ControllerBase
         $vd = new ViewDescriptor();
 
         // imposto la pagina
-        $vd->setPagina($request["page"]);
+        //$vd->setPagina($request["page"]);
 
         // imposto il token per impersonare un utente (nel caso lo stia facendo)
         $this->setImpToken($vd, $request);
-        /*if (isset($request["cmd"]))
-        {
-            switch ($request["cmd"]) 
-            {
-            
-                case 'login':
-                    echo "finalmenteeeeee <br>";
-                break;
-            }
-            
-        }*/
         
-        if (isset($request["login_utente"])) 
+        //serve per verificare se l' utente è già loggato
+        if ($this->loggedIn())
         {
-            $username = isset($request['username']) ? $request['username'] : '';
-            $password = isset($request['password']) ? $request['password'] : '';
-            $this->login($vd, $username, $password);
-            // questa variabile viene poi utilizzata dalla vista
-            if ($this->loggedIn())
-            {
-                $user = UserFactory::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-            }
-            else 
-            {
-                $this->showBasePage($vd);
-            }
+            //se l' utente risulta loggato lo vado a cercare nel database
+            //dopodichè carichero' la sua pagina corrispondente
+            $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
+            $this->findPageToShow($vd);
         }
-        else 
+        else
         {
-            if ($this->loggedIn()) 
+            if ($request["login"] === 'Login') 
             {
-                //utente autenticato
-                // questa variabile viene poi utilizzata dalla vista
-                $user = UserFactory::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-
-                $this->findPageToShow($vd);
-            } 
+                $username = isset($request['username']) ? $request['username'] : '';
+                $password = isset($request['password']) ? $request['password'] : '';
+                $this->login($vd, $username, $password);
+            }
             else 
             {
                 // utente non autenticato
-                echo 'punto iniziale<br>';
                 $this->showBasePage($vd);
             }
         }
-
-        // richiamo la vista
-        //echo 'richiamo la master page<br>';
-        //require 'php/view/master.php';
     }
 
     /**
@@ -111,14 +86,22 @@ class ControllerBase
         require basename(__DIR__) . '/../view/master.php';
     }
 
-    /**
-     * Imposta la vista master.php per visualizzare la pagina di gestione
-     * dello studente
-     * @param ViewDescriptor $vd il descrittore della vista
-     */
     protected function showHomeUser($vd)
     {
         $vd->setTitle("Computer Shop - Home Utente");
+        $vd->setLoginContent(basename(__DIR__) . '/../view/Utente/login_content.php');
+        //$vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
+        $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
+        $vd->setLeftBarFile(basename(__DIR__) . '/../view/Base/leftBar.php');
+        //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
+        $vd->setContentFile(basename(__DIR__) . '/../view/Base/main_content.php');
+        
+        require basename(__DIR__) . '/../view/master.php';
+    }
+    
+    protected function showHomeComm($vd)
+    {
+        $vd->setTitle("Computer Shop - Home Commericiante");
         $vd->setLoginContent(basename(__DIR__) . '/../view/Utente/login_content.php');
         //$vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
@@ -135,8 +118,9 @@ class ControllerBase
      */
     protected function findPageToShow($vd) 
     {
-        $user = UserFactory::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-        switch ($user->getRuolo()) 
+        $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
+        //echo $user->getTipoUtente();
+        switch ($user->getTipoUtente()) 
         {
             case Base::user:
                 $this->showHomeUser($vd);
@@ -168,26 +152,23 @@ class ControllerBase
      * @param string $username lo username specificato
      * @param string $password la password specificata
      */
-    protected function login($vd, $username, $password) 
+    protected function login($vd, $username, $password)
     {
-        echo "carichiamo i dati dell'utente<br>";
+        // user contiene l' utente appena caricato dal database
         $user = UserDatabase::instance()->caricaUtente($username, $password);
         if (isset($user) && $user->esiste()) 
         {
-            //$user dovrebbe contenere l' utente appena cercato nel database
-            echo "utente autenticato<br>";
+            //self::user contiene l' id dell' utente
             $_SESSION[self::user] = $user->getId();
+            //self::role contiene il ruolo dell' utente (1 -> user, 2 -> comm)
             $_SESSION[self::role] = $user->getTipoUtente();
-           
-            echo $user->getNome();
-            echo $user->getCognome();
+            
+            //echo $user->getTipoUtente();
             
             //copio l' utente in ambiente globale
             $this->user = $user;
             
-            
-            echo "Cerco la pagina da visualizzare e la visualizzo<br>";
-            $this->showHomeUser($vd);
+            $this->findPageToShow($vd);
         } 
         else 
         {
@@ -200,7 +181,8 @@ class ControllerBase
      * Procedura di logout dal sistema 
      * @param type $vd il descrittore della pagina
      */
-    protected function logout($vd) {
+    protected function logout($vd) 
+    {
         // reset array $_SESSION
         $_SESSION = array();
         // termino la validita' del cookie di sessione
@@ -210,7 +192,7 @@ class ControllerBase
         }
         // distruggo il file di sessione
         session_destroy();
-        $this->showLoginPage($vd);
+        $this->showBasePage($vd);
     }
 
     /**

@@ -42,7 +42,7 @@ class UserDatabase
      */
     public function caricaUtente($username, $password) 
     {
-        echo ("carica utente<br>");
+        // eseguo la connessione al database
         $mysqli = Database::connectDatabase();
         if (!isset($mysqli))
         {
@@ -50,38 +50,12 @@ class UserDatabase
             $mysqli->close();
             return null;
         }
-        echo "connessione al database stabilita con successo!<br>";
 
-        // cerco prima nella tabella utenti
+        // definisco la query per trovare l' utente
         $query = 
             "select *
             from user 
             where user.username = ? and user.password = ?";
-            
-            /*studenti.id studenti_id,
-            studenti.nome studenti_nome,
-            studenti.cognome studenti_cognome,
-            studenti.matricola studenti_matricola,
-            studenti.email studenti_email,
-            studenti.citta studenti_citta,
-            studenti.via studenti_via,
-            studenti.cap studenti_cap,
-            studenti.provincia studenti_provincia,
-            studenti.numero_civico studenti_numero_civico,
-            studenti.username studenti_username,
-            studenti.password studenti_password,
-            
-            CdL.id CdL_id,
-            CdL.nome CdL_nome,
-            CdL.codice CdL_codice,
-            
-            dipartimenti.id dipartimenti_id,
-            dipartimenti.nome dipartimenti_nome
-            
-            from studenti 
-            join CdL on studenti.cdl_id = CdL.id
-            join dipartimenti on CdL.dipartimento_id = dipartimenti.id
-            where studenti.username = ? and studenti.password = ?"; */
         
         // Precompilo la query con il prepared statement
         $precomp = $mysqli->stmt_init();
@@ -107,50 +81,6 @@ class UserDatabase
             // ho trovato un utente
             $mysqli->close();
             return $utente;
-        }
-
-        // ora cerco un docente
-        $query = "select 
-               docenti.id docenti_id,
-               docenti.nome docenti_nome,
-               docenti.cognome docenti_cognome,
-               docenti.email docenti_email,
-               docenti.citta docenti_citta,
-               docenti.cap docenti_cap,
-               docenti.via docenti_via,
-               docenti.provincia docenti_provincia,
-               docenti.numero_civico docenti_numero_civico,
-               docenti.ricevimento docenti_ricevimento,
-               docenti.username docenti_username,
-               docenti.password docenti_password,
-               dipartimenti.id dipartimenti_id,
-               dipartimenti.nome dipartimenti_nome
-               
-               from docenti 
-               join dipartimenti on docenti.dipartimento_id = dipartimenti.id
-               where docenti.username = ? and docenti.password = ?";
-
-        $stmt = $mysqli->stmt_init();
-        $stmt->prepare($query);
-        if (!$stmt) {
-            error_log("[loadUser] impossibile" .
-                    " inizializzare il prepared statement");
-            $mysqli->close();
-            return null;
-        }
-
-        if (!$stmt->bind_param('ss', $username, $password)) {
-            error_log("[loadUser] impossibile" .
-                    " effettuare il binding in input");
-            $mysqli->close();
-            return null;
-        }
-
-        $docente = self::caricaDocenteDaStmt($stmt);
-        if (isset($docente)) {
-            // ho trovato un docente
-            $mysqli->close();
-            return $docente;
         }
     }
 
@@ -300,107 +230,48 @@ class UserDatabase
      * @return Studente un oggetto Studente nel caso sia stato trovato,
      * NULL altrimenti
      */
-    public function cercaUtentePerId($id, $role) {
+    public function cercaUtentePerId($id, $role) 
+    {
         $intval = filter_var($id, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-        if (!isset($intval)) {
+        if (!isset($intval)) 
+        {
             return null;
         }
-        $mysqli = Db::getInstance()->connectDb();
-        if (!isset($mysqli)) {
+        
+        $mysqli = Database::connectDatabase();
+        if (!isset($mysqli)) 
+        {
             error_log("[cercaUtentePerId] impossibile inizializzare il database");
             $mysqli->close();
             return null;
         }
+        $query = 
+            "select *
+            from user 
+            where user.id_user = ?";
+        
+        $precomp = $mysqli->stmt_init();
+        $precomp->prepare($query);
+        if (!$precomp) 
+        {
+            error_log("[cercaUtentePerId] impossibile inizializzare il prepared statement");
+            $mysqli->close();
+            return null;
+        }
 
-        switch ($role) {
-            case User::Studente:
-                $query = "select 
-            studenti.id studenti_id,
-            studenti.nome studenti_nome,
-            studenti.cognome studenti_cognome,
-            studenti.matricola studenti_matricola,
-            studenti.email studenti_email,
-            studenti.citta studenti_citta,
-            studenti.via studenti_via,
-            studenti.cap studenti_cap,
-            studenti.provincia studenti_provincia, 
-            studenti.numero_civico studenti_numero_civico,
-            studenti.username studenti_username,
-            studenti.password studenti_password,
-            
-            CdL.id CdL_id,
-            CdL.nome CdL_nome,
-            CdL.codice CdL_codice,
-            
-            dipartimenti.id dipartimenti_id,
-            dipartimenti.nome dipartimenti_nome
-            
-            from studenti 
-            join CdL on studenti.cdl_id = CdL.id
-            join dipartimenti on CdL.dipartimento_id = dipartimenti.id
-            where studenti.id = ?";
-                $stmt = $mysqli->stmt_init();
-                $stmt->prepare($query);
-                if (!$stmt) {
-                    error_log("[cercaUtentePerId] impossibile" .
-                            " inizializzare il prepared statement");
-                    $mysqli->close();
-                    return null;
-                }
+        if (!$precomp->bind_param('i', $intval)) 
+        {
+            error_log("[cercaUtentePerId] impossibile effettuare il binding in input");
+            $mysqli->close();
+            return null;
+        }
 
-                if (!$stmt->bind_param('i', $intval)) {
-                    error_log("[cercaUtentePerId] impossibile" .
-                            " effettuare il binding in input");
-                    $mysqli->close();
-                    return null;
-                }
-
-                return self::caricaStudenteDaStmt($stmt);
-                break;
-
-            case User::Docente:
-                $query = "select 
-               docenti.id docenti_id,
-               docenti.nome docenti_nome,
-               docenti.cognome docenti_cognome,
-               docenti.email docenti_email,
-               docenti.citta docenti_citta,
-               docenti.cap docenti_cap,
-               docenti.via docenti_via,
-               docenti.provincia docenti_provincia,
-               docenti.numero_civico docenti_numero_civico,
-               docenti.ricevimento docenti_ricevimento,
-               docenti.username docenti_username,
-               docenti.password docenti_password,
-               dipartimenti.id dipartimenti_id,
-               dipartimenti.nome dipartimenti_nome
-               
-               from docenti 
-               join dipartimenti on docenti.dipartimento_id = dipartimenti.id
-               where docenti.id = ?";
-
-                $stmt = $mysqli->stmt_init();
-                $stmt->prepare($query);
-                if (!$stmt) {
-                    error_log("[cercaUtentePerId] impossibile" .
-                            " inizializzare il prepared statement");
-                    $mysqli->close();
-                    return null;
-                }
-
-                if (!$stmt->bind_param('i', $intval)) {
-                    error_log("[loadUser] impossibile" .
-                            " effettuare il binding in input");
-                    $mysqli->close();
-                    return null;
-                }
-
-                $toRet =  self::caricaDocenteDaStmt($stmt);
-                $mysqli->close();
-                return $toRet;
-                break;
-
-            default: return null;
+        $utente = self::caricaUtenteDaStatement($precomp);
+        if (isset($utente))
+        {
+            // ho trovato un utente
+            $mysqli->close();
+            return $utente;
         }
     }
 
@@ -411,14 +282,20 @@ class UserDatabase
      */
     public function creaUtenteDaArray($row) 
     {
-        echo "crea utente da array<br>";
         $utente = new Base();
         $utente->impostaId($row['user.id_user']);
         $utente->impostaNome($row['user.nome']);
         $utente->impostaCognome($row['user.cognome']);
         $utente->impostaUsername($row['user.username']);
         $utente->impostaPassword($row['user.password']);
-        $utente->impostaTipoUtente(Base::user);
+        if($row['user.tipo_utente'] == 1)
+        {
+            $utente->impostaTipoUtente(Base::user);
+        }
+        else
+        {
+            $utente->impostaTipoUtente(Base::comm);
+        }
         $utente->impostaIndirizzo($row['user.indirizzo']);
         $utente->impostaEmail($row['user.email']);
         $utente->impostaCivico($row['user.numero_civico']);
@@ -428,7 +305,6 @@ class UserDatabase
 
         /*if (isset($row['CdL_id']))
             $studente->setCorsoDiLaurea(CorsoDiLaureaFactory::instance()->creaDaArray($row));*/
-        echo "utente da array creato<br>";
         return $utente;
     }
 

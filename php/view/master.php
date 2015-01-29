@@ -1,7 +1,5 @@
 <?php
-    echo ("sono dentro MASTER<br>");
     include_once 'ViewDescriptor.php';
-    include_once basename(__DIR__) . '/../Impostazioni.php';
     
     if (!$vd->isJson()) 
     {
@@ -12,7 +10,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><?= $vd->getTitle() ?></title>
-    <base href="<?= Impostazioni::getApplicationPath() ?>php/"/>
     
     <link rel="stylesheet" type="text/css" href="../style.css">
    
