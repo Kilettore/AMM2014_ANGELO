@@ -25,18 +25,21 @@ class ControllerMain
         session_start();
         
         // Entra in questo blocco se viene richiesto il logout
-        if($request["logout"] === 'Logout') 
+        if(isset($request["logout"]))
         {
-            $cont = new ControllerBase();
-            $request['login'] = '';
-            $cont->handleInput($request);
+            if($request["logout"] === 'Logout') 
+            {
+                $cont = new ControllerBase();
+                $request['login'] = '';
+                $cont->handleInput($request);
+            }
         }
         else
         {   // Questo test mi permette di determinare se un utente è già loggato nel sito
             // Se è già loggato faccio la ricerca e determino che tipo di utente è
-            if(isset($_SESSION[role]))
+            if(isset($_SESSION['role']))
             {
-                switch($_SESSION[role])
+                switch($_SESSION['role'])
                 {
                     // Caso utente
                     case '1':
