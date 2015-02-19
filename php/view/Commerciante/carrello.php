@@ -5,7 +5,8 @@ include_once basename(__DIR__) . '/../model/ProdDatabase.php';
 
 //carico in memoria l' utente di cui devo visualizzare i dati
 $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-echo "Carrello di ".$user->getNome().' '.$user->getCognome()."<br>";
+//echo "<span class='subpage_text'>Risultati della ricerca</span><hr>";
+echo "<span class='subpage_text'>Carrello di ".$user->getNome().' '.$user->getCognome()."</span><br>";
 echo "<hr>";
 
 // Carico su result i prodotti da mostrare nel carrello
@@ -45,8 +46,12 @@ foreach($result as $row)
 <?php
 $count = $count + $row->getPrezzo();
 }
+if($count != 0)
+{
+    echo "<span class='price'>Il prezzo totale e' di: ".$count."€</span>";
+    echo "<form action='index.php' method='post'>
+              <button class='button_shop' type='submit' name='end_shop' value='".$user->getId().">'>Acquista i Prodotti</button>
+          </form>";
+}
+else echo "<span class='price'>Il carrello e' vuoto</span>";
 ?>
-Il prezzo totale e' di: <?= $count ?>
-<form action="index.php" method="post">
-    <button type="submit" name="end_shop" value="<?= $user->getId() ?>">Acquista i Prodotti</button>
-</form>

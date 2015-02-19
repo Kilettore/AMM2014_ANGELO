@@ -61,7 +61,6 @@ class ControllerComm extends ControllerBase
         if(isset($request['modifica']))
         {
             $this->prodotto = ProdDatabase::instance()->loadOneProduct($request['modifica']);
-            echo "Il nome del prodotto e': ".$this->prodotto->getNome()."<br>";
             
             $vd->setSottoPagina("modifica");
         }
@@ -93,8 +92,8 @@ class ControllerComm extends ControllerBase
                     $vd->setSottoPagina("add");
                     break;
                 
+                // Aggiungo il prodotto al database
                 case 'added':
-                    // Qui devo aggiungere il prodotto al database
                     ProdDatabase::instance()->addProduct($request['nome'], 
                                                          $request['tipologia'], 
                                                          $request['schermo'], 
@@ -108,8 +107,8 @@ class ControllerComm extends ControllerBase
                     $vd->setSottoPagina("result");
                     break;
                 
+                // Aggiorno la riga selezionata dall' admin per la modifica
                 case 'updated':
-                    // Aggiorno la riga modificata del database
                     ProdDatabase::instance()->updateProduct($request['nome'], 
                                                             $request['tipologia'], 
                                                             $request['schermo'], 

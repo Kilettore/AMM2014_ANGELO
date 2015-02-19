@@ -3,16 +3,8 @@
 include_once 'Base.php';
 include_once 'Database.php';
 include_once 'Prodotto.php';
-//include_once 'Docente.php';
-//include_once 'Studente.php';
-//include_once 'CorsoDiLaureaFactory.php';
-//include_once 'DipartimentoFactory.php';
 
-/**
- * Classe per la creazione degli utenti del sistema
- *
- * @author Davide Spano
- */
+// Classe che si occupa della gestione dei prodotti nel database
 class ProdDatabase 
 {
 
@@ -23,10 +15,7 @@ class ProdDatabase
         
     }
 
-    /**
-     * Restiuisce un singleton per creare utenti
-     * @return \UserFactory
-     */
+    // Restiuisce un singleton per creare prodotti
     public static function instance() {
         if (!isset(self::$singleton)) {
             self::$singleton = new ProdDatabase();
@@ -47,7 +36,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per selezionare tutti i prodotti nel database
         $query = 
             "SELECT *
              FROM prodotto";
@@ -72,7 +61,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per salvare i dati sdi utente e prodotto nel carrello
         $query = 
             "INSERT INTO carrello (id_user, id_prodotto) 
              VALUES (?, ?)";
@@ -111,7 +100,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per caricare il carrello di un determinato utente
         $query = 
             "SELECT prodotto.*, carrello.id_carrello
              FROM carrello JOIN prodotto
@@ -179,15 +168,8 @@ class ProdDatabase
         }      
 
         // Eseguo la query che non deve restituire nulla in uscita
-        if($precomp->execute())
-        {
-            echo "query eseguita correttamente<br>";
-        }
-        else
-        {
-            echo "errore!: ".$precomp->error;
-        }
- 
+        $precomp->execute();
+       
         $precomp->close();       
     }
     
@@ -273,14 +255,7 @@ class ProdDatabase
         }      
 
         // Eseguo la query che non deve restituire nulla in uscita
-        if($precomp->execute())
-        {
-            echo "query eseguita correttamente<br>";
-        }
-        else
-        {
-            echo "errore!: ".$precomp->error;
-        }
+        $precomp->execute();
  
         $precomp->close();       
     }

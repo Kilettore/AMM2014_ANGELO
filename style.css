@@ -272,6 +272,21 @@ li
     color: beige;
 }
 
+.button_shop
+{
+    background-color: darkred;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    margin-left: 35px;
+    padding: 4px 20px 4px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    border-radius: 0.5em;
+    font: bold 15px Arial, Helvetica;
+    font-size: 13px;
+    color: beige;
+}
+
 .login_name
 {
     margin-top: 100px;
@@ -300,4 +315,11 @@ li
 {
     min-width: 180px;
     text-align: center;
+}
+
+.price
+{
+    margin-left: 30px;
+    font-family: Arial;
+    font-size: 15px;
 }
