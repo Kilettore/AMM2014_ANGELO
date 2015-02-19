@@ -65,6 +65,12 @@
             ?>
         </div>
     </div>
+    <div id="footer">
+        <?php
+            $footer = $vd->getFooter();
+            require "$footer";
+        ?>
+    </div>
 </div>
 </body>
 </html>

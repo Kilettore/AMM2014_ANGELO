@@ -65,6 +65,7 @@ class ViewDescriptor
      * @var string 
      */
     private $sottoPagina;
+    private $footer;
     /**
      * Variabile utilizzata in modalita' amministratore per impersonare 
      * degli utenti (vedere metodo setImpToken)
@@ -294,6 +295,16 @@ class ViewDescriptor
      */
     public function toggleJson(){
         $this->json = true;
+    }
+    
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+    }
+    
+    public function getFooter()
+    {
+        return $this->footer;
     }
     
 

@@ -98,8 +98,8 @@ class ControllerBase
         $vd->setMenuFile(basename(__DIR__) . '/../view/Base/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/Base/leftBar.php');
-        //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
         $vd->setContentFile(basename(__DIR__) . '/../view/Base/main_content.php');
+        $vd->setFooter(basename(__DIR__) . '/../view/Base/footer.php');
         
         require basename(__DIR__) . '/../view/master.php';
     }
@@ -111,8 +111,8 @@ class ControllerBase
         $vd->setMenuFile(basename(__DIR__) . '/../view/Utente/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/Utente/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/Utente/leftBar.php');
-        //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
         $vd->setContentFile(basename(__DIR__) . '/../view/Utente/main_content.php');
+        $vd->setFooter(basename(__DIR__) . '/../view/Utente/footer.php');
         
         require basename(__DIR__) . '/../view/master.php';
     }
@@ -124,8 +124,8 @@ class ControllerBase
         $vd->setMenuFile(basename(__DIR__) . '/../view/Commerciante/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/Commerciante/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/Commerciante/leftBar.php');
-        //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
         $vd->setContentFile(basename(__DIR__) . '/../view/Commerciante/main_content.php');
+        $vd->setFooter(basename(__DIR__) . '/../view/Commerciante/footer.php');
         
         require basename(__DIR__) . '/../view/master.php';
     }
