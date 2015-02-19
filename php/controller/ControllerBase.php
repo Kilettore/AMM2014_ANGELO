@@ -142,12 +142,12 @@ class ControllerBase
         {
             case Base::user:
                 $new_user = new ControllerUser();
-                $new_user -> handleInput();
+                $new_user -> handleInput($request);
                 break;
 
             case Base::comm:
                 $new_comm = new ControllerComm();
-                $new_comm -> handleInput();
+                $new_comm -> handleInput($request);
                 break;
         }
     }
