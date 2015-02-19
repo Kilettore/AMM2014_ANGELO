@@ -2,7 +2,7 @@
 
 include_once 'controller/ControllerBase.php';
 include_once 'controller/ControllerUser.php';
-//include_once 'controller/Commerciante_Controller.php';
+include_once 'controller/ControllerComm.php';
 
 date_default_timezone_set("Europe/Rome");
 
@@ -20,32 +20,48 @@ class ControllerMain
      * @param array $request i parametri della richiesta
      */
     public static function findUserType(&$request)
-    {
-        // inizializziamo la sessione 
+    {         
+        // Inizializzo la sessione 
         session_start();
         
-        // controllo le richieste degli utenti a cascata
-        // in questo modo posso evitare l' utilizzo del rewrite engine
+        // Entra in questo blocco se viene richiesto il logout
         if($request["logout"] === 'Logout') 
         {
-            $cont = new ControllerUser();
+            $cont = new ControllerBase();
             $request['login'] = '';
-            if (isset($_SESSION[ControllerBase::role]) && $_SESSION[ControllerBase::role] != Base::user) 
-            {
-                self::write403();
-            }
             $cont->handleInput($request);
         }
-        else   
-        {
-            if(isset($request["login"]) )
+        else
+        {   // Questo test mi permette di determinare se un utente è già loggato nel sito
+            // Se è già loggato faccio la ricerca e determino che tipo di utente è
+            if(isset($_SESSION[role]))
             {
-                $cont = new ControllerBase();
-                $cont->handleInput($request);            
+                switch($_SESSION[role])
+                {
+                    // Caso utente
+                    case '1':
+                        $cont = new ControllerUser();
+                        $cont->handleInput($request); 
+                        break;
+
+                    // Caso amministratore
+                    case '2':
+                        $cont = new ControllerComm();
+                        $cont->handleInput($request);
+                        break;
+                }
             }
-            else 
+            else   
             {
-                self::write404();
+                /*if(isset($request["login"]))*/
+                {
+                    $cont = new ControllerBase();
+                    $cont->handleInput($request);            
+                }
+                /*else 
+                {
+                    self::write404();
+                }*/
             }
         }
     }

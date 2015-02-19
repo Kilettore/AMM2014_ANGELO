@@ -1,16 +1,7 @@
-<div class="login_form">
+<div id="login">
     <form action="index.php" method="post">
-		
-        <input type="hidden" name="login_utente" value="login"/>
-        <label for="username">Username</label>
-    	<input id="username" type="text" name="username">
-    		
-	<br><br>
-
-    	<label for="password">Password</label>
-    	<input id="password" type="text" name="password">
-
-	<br>
-        <input type="submit" name="login" value="Login">
+        <p><input id="username" type="text" name="username" value="" placeholder="Username"></p>
+        <p><input id="password" type="password" name="password" value="" placeholder="Password"></p>
+        <p><input class="pulsante_login" type="submit" name="login" value="Login"></p>
     </form>
 </div>

@@ -16,8 +16,9 @@ class ControllerBase
 {
     const user = 'user';
     const role = 'role';
-    const impersonato = '_imp';
-    private $user;
+    const imp = 'imp';
+    
+    public $input_search;
     
     public function __construct() //Costruttore
     {
@@ -30,22 +31,24 @@ class ControllerBase
      */
     public function handleInput(&$request) 
     {
-        // creo il descrittore della vista
+        // creo una nuova istanza per il descrittore
         $vd = new ViewDescriptor();
 
-        // imposto la pagina
-        //$vd->setPagina($request["page"]);
+        // Imposto la sottopagina di default su 'home'
+        $vd->setSottoPagina('home');
 
-        // imposto il token per impersonare un utente (nel caso lo stia facendo)
-        $this->setImpToken($vd, $request);
-        
+        // Test per verificare se l' utente ha richiesto un logout
+        if (isset($request["logout"])) 
+        {
+            $request["logout"] = '';
+            $this->logout($vd);
+        }
+
         //serve per verificare se l' utente è già loggato
         if ($this->loggedIn())
         {
-            //se l' utente risulta loggato lo vado a cercare nel database
-            //dopodichè carichero' la sua pagina corrispondente
-            $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-            $this->findPageToShow($vd);
+            //se l' utente risulta loggato, vado a caricare la pagina corrispondente al suo tipo
+            $this->findPageToShow();
         }
         else
         {
@@ -57,16 +60,31 @@ class ControllerBase
             }
             else 
             {
-                // utente non autenticato
+                if(isset($request['subpage']))
+                {
+                    switch ($request['subpage'])
+                    {
+                        case 'chisiamo':
+                            $vd->setSottoPagina("chisiamo");
+                            break;
+                
+                        case 'partner':
+                            $vd->setSottoPagina("partner");
+                            break;
+                        
+                        case 'cerca':
+                            $this->input_search = $request['search'];
+                            $vd->setSottoPagina("cerca");
+                            break;
+                    }
+                }
+                // Caso di utente non autenticato
                 $this->showBasePage($vd);
             }
-        }
+        }      
     }
 
-    /**
-     * Verifica se l'utente sia correttamente autenticato
-     * @return boolean true se l'utente era gia' autenticato, false altrimenti
-     */
+    // Funzione che controlla se un utente è già loggato
     protected function loggedIn() 
     {
         return isset($_SESSION) && array_key_exists(self::user, $_SESSION);
@@ -77,7 +95,7 @@ class ControllerBase
         
         $vd->setTitle("Computer Shop - Home Page");
         $vd->setLoginContent(basename(__DIR__) . '/../view/Base/login_content.php');
-        //$vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
+        $vd->setMenuFile(basename(__DIR__) . '/../view/Base/menu.php');
         $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
         $vd->setLeftBarFile(basename(__DIR__) . '/../view/Base/leftBar.php');
         //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
@@ -90,11 +108,11 @@ class ControllerBase
     {
         $vd->setTitle("Computer Shop - Home Utente");
         $vd->setLoginContent(basename(__DIR__) . '/../view/Utente/login_content.php');
-        //$vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
-        $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
-        $vd->setLeftBarFile(basename(__DIR__) . '/../view/Base/leftBar.php');
+        $vd->setMenuFile(basename(__DIR__) . '/../view/Utente/menu.php');
+        $vd->setLogoFile(basename(__DIR__) . '/../view/Utente/logo.php');
+        $vd->setLeftBarFile(basename(__DIR__) . '/../view/Utente/leftBar.php');
         //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
-        $vd->setContentFile(basename(__DIR__) . '/../view/Base/main_content.php');
+        $vd->setContentFile(basename(__DIR__) . '/../view/Utente/main_content.php');
         
         require basename(__DIR__) . '/../view/master.php';
     }
@@ -102,12 +120,12 @@ class ControllerBase
     protected function showHomeComm($vd)
     {
         $vd->setTitle("Computer Shop - Home Commericiante");
-        $vd->setLoginContent(basename(__DIR__) . '/../view/Utente/login_content.php');
-        //$vd->setMenuFile(basename(__DIR__) . '/../view/login/menu.php');
-        $vd->setLogoFile(basename(__DIR__) . '/../view/Base/logo.php');
-        $vd->setLeftBarFile(basename(__DIR__) . '/../view/Base/leftBar.php');
+        $vd->setLoginContent(basename(__DIR__) . '/../view/Commerciante/login_content.php');
+        $vd->setMenuFile(basename(__DIR__) . '/../view/Commerciante/menu.php');
+        $vd->setLogoFile(basename(__DIR__) . '/../view/Commerciante/logo.php');
+        $vd->setLeftBarFile(basename(__DIR__) . '/../view/Commerciante/leftBar.php');
         //$vd->setRightBarFile(basename(__DIR__) . '/../view/login/rightBar.php');
-        $vd->setContentFile(basename(__DIR__) . '/../view/Base/main_content.php');
+        $vd->setContentFile(basename(__DIR__) . '/../view/Commerciante/main_content.php');
         
         require basename(__DIR__) . '/../view/master.php';
     }
@@ -116,42 +134,27 @@ class ControllerBase
      * Seleziona quale pagina mostrare in base al ruolo dell'utente corrente
      * @param ViewDescriptor $vd il descrittore della vista
      */
-    protected function findPageToShow($vd) 
+    protected function findPageToShow() 
     {
         $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
-        //echo $user->getTipoUtente();
+        
         switch ($user->getTipoUtente()) 
         {
             case Base::user:
-                $this->showHomeUser($vd);
+                $new_user = new ControllerUser();
+                $new_user -> handleInput();
                 break;
 
             case Base::comm:
-                $this->showHomeComm($vd);
+                $new_comm = new ControllerComm();
+                $new_comm -> handleInput();
                 break;
         }
     }
 
-    /**
-     * Imposta la variabile del descrittore della vista legato 
-     * all'utente da impersonare nel caso sia stato specificato nella richiesta
-     * @param ViewDescriptor $vd il descrittore della vista
-     * @param array $request la richiesta
-     */
-    protected function setImpToken(ViewDescriptor $vd, &$request)
-    {
-        if (array_key_exists('_imp', $request)) 
-        {
-            $vd->setImpToken($request['_imp']);
-        }
-    }
-
-    /**
-     * Procedura di autenticazione 
-     * @param ViewDescriptor $vd descrittore della vista
-     * @param string $username lo username specificato
-     * @param string $password la password specificata
-     */
+    // Login utente
+    // Verrà dopo cercata la pagina corrispondente al tipo di utente
+    // Se l' utente non esiste viene ricaricata la pagina base
     protected function login($vd, $username, $password)
     {
         // user contiene l' utente appena caricato dal database
@@ -163,12 +166,8 @@ class ControllerBase
             //self::role contiene il ruolo dell' utente (1 -> user, 2 -> comm)
             $_SESSION[self::role] = $user->getTipoUtente();
             
-            //echo $user->getTipoUtente();
-            
-            //copio l' utente in ambiente globale
-            $this->user = $user;
-            
-            $this->findPageToShow($vd);
+            // Cerco la pagina che corrisponde a quella del tipo di utente
+            $this->findPageToShow();
         } 
         else 
         {
@@ -192,7 +191,7 @@ class ControllerBase
         }
         // distruggo il file di sessione
         session_destroy();
-        $this->showBasePage($vd);
+        //$this->showBasePage($vd);
     }
 
     /**

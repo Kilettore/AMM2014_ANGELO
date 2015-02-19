@@ -32,47 +32,39 @@
 <body>
     <!-- Il div main è quello che contiene tutti gli altri div della pagina -->
 <div id="main">
-    <div id="logo">
-        <?php
-            $logo = $vd->getLogoFile();
-            require "$logo";
-        ?>
-	<div id="login">
+    <div id="container_logo">
+        <div id="logo">
             <?php
-                $loginContent = $vd->getLoginContent();
-                require "$loginContent";
+                $logo = $vd->getLogoFile();
+                require "$logo";
             ?>
-	</div>
+        </div>
+            <?php
+                 $loginContent = $vd->getLoginContent();
+                 require "$loginContent";
+            ?>
     </div>
     
-    <div id="navbar"><ul>
-		<ul>
-		<li class="pagina_corrente">
-        		<a href="#">Home Page</a>
-    		</li>
-    		<li>
-        		<a href="lol.html">Chi siamo</a>
-    		</li>
-    		<li>
-        		<a href="lol.html">Perchè</a>
-    		</li>
-    		<li>
-        		<a href="lol.html">Lel</a>
-    		</li>
-		</ul>
-	</div>
-	<div id="leftbar">
+    <div id="navbar">
+	<?php
+            $menu = $vd->getMenuFile();
+            require "$menu";
+        ?>
+    </div>
+    <div id="contenuto_main">
+        <div id="leftbar">
             <?php
                 $left = $vd->getLeftBarFile();
                 require "$left";
             ?>
         </div>
-	<div id="content">
-	<?php
+        <div id="content">
+            <?php
 		$mainContent = $vd->getContentFile();
                 require "$mainContent";
-	?>
-	</div>
+            ?>
+        </div>
+    </div>
 </div>
 </body>
 </html>
