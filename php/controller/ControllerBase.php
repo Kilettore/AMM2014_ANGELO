@@ -41,29 +41,29 @@ class ControllerBase
                 $password = isset($request['password']) ? $request['password'] : '';
                 $this->login($vd, $username, $password);
             }
-            else 
+        }
+        else 
+        {
+            if(isset($request['subpage']))
             {
-                if(isset($request['subpage']))
+                switch ($request['subpage'])
                 {
-                    switch ($request['subpage'])
-                    {
-                        case 'chisiamo':
-                            $vd->setSottoPagina("chisiamo");
-                            break;
+                    case 'chisiamo':
+                        $vd->setSottoPagina("chisiamo");
+                        break;
 
-                        case 'partner':
-                            $vd->setSottoPagina("partner");
-                            break;
+                    case 'partner':
+                        $vd->setSottoPagina("partner");
+                        break;
 
-                        case 'cerca':
-                            $this->input_search = $request['search'];
-                            $vd->setSottoPagina("cerca");
-                            break;
-                    }
+                    case 'cerca':
+                        $this->input_search = $request['search'];
+                        $vd->setSottoPagina("cerca");
+                        break;
                 }
-                // Caso di utente non autenticato
-                $this->showBasePage($vd);
             }
+            // Caso di utente non autenticato
+            $this->showBasePage($vd);
         }
     }
     
