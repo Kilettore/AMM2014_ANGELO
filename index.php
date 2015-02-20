@@ -19,5 +19,5 @@ Cliccando il pulsante qui presente e' possibile raggiungere il sito.<br>
 Buon proseguimento!<br><br>
 
 <form action="php/index.php" method="post">
-        <input type="submit" name="login" value="Clicca qui per accedere">
+        <input type="submit" value="Clicca qui per accedere">
 </form>
