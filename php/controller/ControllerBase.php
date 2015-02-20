@@ -33,34 +33,37 @@ class ControllerBase
             $this->logout();
         }
 
-        if ($request["login"] === 'Login') 
+        if(isset($request["login"]))
         {
-            $username = isset($request['username']) ? $request['username'] : '';
-            $password = isset($request['password']) ? $request['password'] : '';
-            $this->login($vd, $username, $password);
-        }
-        else 
-        {
-            if(isset($request['subpage']))
+            if ($request["login"] === 'Login') 
             {
-                switch ($request['subpage'])
-                {
-                    case 'chisiamo':
-                        $vd->setSottoPagina("chisiamo");
-                        break;
-                
-                    case 'partner':
-                        $vd->setSottoPagina("partner");
-                        break;
-                        
-                    case 'cerca':
-                        $this->input_search = $request['search'];
-                        $vd->setSottoPagina("cerca");
-                        break;
-                }
+                $username = isset($request['username']) ? $request['username'] : '';
+                $password = isset($request['password']) ? $request['password'] : '';
+                $this->login($vd, $username, $password);
             }
-            // Caso di utente non autenticato
-            $this->showBasePage($vd);
+            else 
+            {
+                if(isset($request['subpage']))
+                {
+                    switch ($request['subpage'])
+                    {
+                        case 'chisiamo':
+                            $vd->setSottoPagina("chisiamo");
+                            break;
+
+                        case 'partner':
+                            $vd->setSottoPagina("partner");
+                            break;
+
+                        case 'cerca':
+                            $this->input_search = $request['search'];
+                            $vd->setSottoPagina("cerca");
+                            break;
+                    }
+                }
+                // Caso di utente non autenticato
+                $this->showBasePage($vd);
+            }
         }
     }
     
