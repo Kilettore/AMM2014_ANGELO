@@ -1,7 +1,4 @@
-a:link{color: black}
-a:hover{color: red}
-a:visited{color: cyan}
-
+/* Pulsanti del menu */
 .menu_buttons
 {
     margin-right: 5px;
@@ -16,6 +13,7 @@ a:visited{color: cyan}
     border-color: black;
 }
 
+/* Pulsante cerca */
 .search_button
 {
     width: 75px;
@@ -40,6 +38,7 @@ a:visited{color: cyan}
     border-color: white;
 }
 
+/* Barra di ricerca utente non loggato e utente normale */
 .input_search_base
 {
     float: left;
@@ -47,6 +46,7 @@ a:visited{color: cyan}
     margin-left: 215px;
 }
 
+/* Barra di ricerca Admin */
 .input_search_admin
 {
     float: left;
@@ -60,6 +60,7 @@ body
     background-color: aliceblue;
 }
 
+/* Credo che sia inutile */
 div
 {
     border-style: solid;
@@ -79,6 +80,7 @@ table
     text-align: center;
 }
 
+/* Dimensione td delle tabelle principali */
 .td_main
 {
     width: 45%;
@@ -92,6 +94,7 @@ table
     font-size: 16px;
 }
 
+/* Div superiore, include banner e login */
 #container_logo
 {
     overflow: hidden;
@@ -100,6 +103,7 @@ table
     height: 100px;
 }
 
+/* Banner del sito */
 #logo
 {
     float: left;
@@ -107,6 +111,7 @@ table
     width: 60%;   
 }
 
+/* Div du utente non ancora loggato */
 #login
 {
     float: right;
@@ -118,6 +123,7 @@ table
     border-bottom-left-radius: 0.5em;
 }
 
+/* Div di utente loggato */
 #logged_in
 {
     float: right;
@@ -130,6 +136,7 @@ table
     border-bottom-left-radius: 0.5em;
 }
 
+/* Pulsante Login */
 .pulsante_login 
 {
     background-color: #8bc8f0;
@@ -149,6 +156,7 @@ table
     text-decoration: none;
 }
 
+/* Menu del sito */
 #navbar
 {
     background-color: black;
@@ -165,6 +173,7 @@ table
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
+/* Div più esterno del sito */
 #main
 {
     width: 1000px;
@@ -180,6 +189,7 @@ label
     float: left;
 }
 
+/* Menu del sito */
 ul
 {
     box-sizing: border-box;
@@ -199,12 +209,14 @@ li
     float: left;
 }
 
+/* Include leftbar e content */
 #contenuto_main
 {
     overflow: hidden;
     background-color: white;
 }
 
+/* Div della barra laterale */
 #leftbar
 {
     padding-top: 6px;
@@ -213,6 +225,7 @@ li
     width: 25%;  
 }
 
+/* Div dove è presente il contenuto principale del sito */
 #content
 {
     float: right;
@@ -222,21 +235,16 @@ li
     padding-top: 8px;
 }
 
-#descrizione
-{
-    width: 300px;
-    height: 100px;
-}
-
 #pulsante_logout
 {
     text-decoration-line: none;
     border: none;
     background: none;
     float: right;
-    padding-top: 15px;
-    padding-right: 40px;
+    margin-top: 15px;
+    margin-right: 40px;
 }
+
 #pulsante_logout:hover
 {
     color: blue;
@@ -253,11 +261,28 @@ li
     border-radius: 0.5em;
 }
 
+/* Immagine del carrello */
 .imgcarrello
 {
     max-width: 30px;
     height: auto;
     float: left;
+}
+
+/* Pulsante delle impostazioni */
+#settings
+{
+    background: none;
+    border: none;
+}
+
+/* Immagine del pulsante impostazioni */
+.imgsettings
+{
+    max-width: 30px;
+    height: auto;
+    padding-left: 30px;
+    padding-top: 7px;
 }
 
 .text_button
@@ -266,6 +291,7 @@ li
     padding-top: 8px;
 }
 
+/* Pulsante per aggiungere al carrello */
 .button_add_cart
 {
     background-color: darkred;
@@ -280,6 +306,7 @@ li
     color: beige;
 }
 
+/* Pulsante per effettuare l' acquisto */
 .button_shop
 {
     background-color: darkred;
@@ -295,6 +322,7 @@ li
     color: beige;
 }
 
+/* Nome dell' utente che compare nel login */
 .login_name
 {
     margin-top: 100px;
@@ -304,6 +332,7 @@ li
     font-style: oblique;
 }
 
+/* Classe relativa ai testi delle sottopagine */
 .subpage_text
 {
     padding-left: 30px;
@@ -313,18 +342,27 @@ li
     font-style: italic;
 }
 
+/* Mostra l' indirizzo della spedizione nei carrelli */
+.subpage_indirizzo
+{
+    padding-left: 30px;
+}
+
+/* Immagini dei partner */
 .partners
 {
     max-height: 100px;
     max-width: 100px;
 }
 
+/* Tabella dei partner */
 .td_partner
 {
     min-width: 180px;
     text-align: center;
 }
 
+/* Testo del prezzo presente nei vari carrelli */
 .price
 {
     margin-left: 30px;
@@ -332,6 +370,7 @@ li
     font-size: 15px;
 }
 
+/* Testo del footer */
 .footer_text
 {
     font-family: Arial;
@@ -342,6 +381,7 @@ li
     padding-left: 12px;
 }
 
+/* Visualizza nel footer la data e l' ora */
 #date_time
 {
     font-family: Arial;
@@ -350,5 +390,68 @@ li
     float: right;
     padding-top: 14px;
     padding-right: 12px;
+}
+
+/* Campi della modifica utente e prodotti */
+.mod
+{
+    min-width: 250px;
+}
+
+/* Textarea relativa alla descrzione del prodotto, è presente nella pagina modifica.php */
+#descrizione
+{
+    width: 300px;
+    height: 100px;
+}
+
+/* Testo contenuto nelle pagine dei risultati */
+.result
+{
+    padding-left: 30px;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Pulsanti nelle pagine dei risultati */
+.button_result
+{
+    background-color: darkred;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    margin-top: 5px;
+    margin-left: 35px;
+    padding: 4px 15px 4px 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    border-radius: 0.5em;
+    font: bold 15px Arial, Helvetica;
+    font-size: 13px;
+    color: beige;
+}
+
+/* Pulsanti di aggiornamento per prodotti e utenti */
+.update_button
+{
+    background-color: darkred;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    padding: 4px 13px 4px 13px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    border-radius: 0.5em;
+    font: bold 15px Arial, Helvetica;
+    font-size: 13px;
+    color: beige;
+}
+
+/* Classe che posiziona correttamente i numerosi testi presenti nel sito */
+.info_text
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: Arial;
 }
 

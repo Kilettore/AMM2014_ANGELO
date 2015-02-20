@@ -12,6 +12,14 @@ switch ($vd->getSottoPagina())
     case 'partner':
         include 'partner.php';
         break;
+        
+    case 'modifica_utente':
+        include 'modifica_utente.php';
+        break;
+    
+    case 'result_user':
+        include 'result_user.php';
+        break;
     
     case 'cerca':
         if($this->input_search !== '')
@@ -39,8 +47,8 @@ switch ($vd->getSottoPagina())
             </td>
         </tr>
         <tr><td colspan = 2><p class="nome_prodotto"><?= $row->nome ?></p></td></tr>
-        <tr><td class="td_main"><b>Tipo:</b> <?= $row->tipologia ?></td><td><b>Schermo:</b> <?= $row->schermo?> </td></tr>
-        <tr><td colspan = 2><b>Ram:</b> <?= $row->ram ?></td></tr>
+        <tr><td class="td_main"><b>Tipo:</b> <?= $row->tipologia ?></td><td rowspan = 2><b>Schermo:</b> <?= $row->schermo?> </td></tr>
+        <tr><td><b>Ram:</b> <?= $row->ram ?></td></tr>
         <tr><td colspan = 2><b>Cpu:</b> <?= $row->cpu ?></td></tr>
         <tr><td colspan = 2><b>Hard Disk:</b> <?= $row->hard_disk ?></td></tr>
         <tr><td colspan = 2><b>Sistema Operativo:</b> <?= $row->os ?></td></tr>
@@ -53,6 +61,7 @@ switch ($vd->getSottoPagina())
         <tr><td colspan = 2><b>Prezzo:</b> <?= $row->prezzo?> </td></tr>
             <td> 
         </table>
+        <br>
         <hr>
     
     <?php

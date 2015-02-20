@@ -1,7 +1,9 @@
-<b><i>Pagina Utente</i></b><br>
-L' utente può:<br>
+<p class="info_text">
+    <b><i>Pagina Utente</i></b><br>
+    L' utente può:<br>
 
-    -Scegliere un prodotto e inserirlo nel carrello<br>
-    -Comprare i prodotti inseriti nel carrello
+    - Scegliere un prodotto e inserirlo nel carrello<br>
+    - Comprare i prodotti inseriti nel carrello
+</p>
 
 

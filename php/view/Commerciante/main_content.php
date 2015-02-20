@@ -24,6 +24,14 @@ switch ($vd->getSottoPagina())
     case 'modifica':
         include 'modifica.php';
         break;
+        
+    case 'modifica_utente':
+        include 'modifica_utente.php';
+        break;
+    
+    case 'result_user':
+        include 'result_user.php';
+        break;
     
     case 'cerca':
         if($this->input_search !== '')
@@ -76,6 +84,7 @@ switch ($vd->getSottoPagina())
         <tr><td><b>Quantità disponibile:</b> <?= $row->art_disponibili?> </td></tr>
         <tr><td><b>Prezzo:</b> <?= $row->prezzo?> </td></tr>
         </table>
+        <br>
         <hr>
     
     <?php

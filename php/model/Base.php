@@ -9,44 +9,17 @@ class Base
     //Costante che definisce il ruolo commerciante (in questo caso è anche admin)
     const comm = 2;
     
-    // Id dell' utente
     private $id;
-
-    // Username dell' utente
     private $username;
-    
-    // Password dell' utente
     private $password;
-    
-    // Nome dell' utente
     private $nome;
-    
-    // Cognome dell' utente
     private $cognome;
-    
-    // Email dell' utente
     private $email;
-    
-    // Indirizzo dell' utente
-    private $indirizzo;
-     
-    /* Il tipo dell'utente.
-     * Può essere uno user normale, un admin o un commerciante. Uso questa
-     * variabile per controllare gli accessi al database e caricare di
-     * conseguenza una pagina consona all' utente che ha fatto il login
-     */
+    private $via;
     private $tipo;
-    
-    // Numero civico
     private $numeroCivico;
-    
-    // Citta
     private $citta;
-    
-    // Provincia di residenza
     private $provincia;
-    
-    // Cap dell' utente
     private $cap;
     
     // Costruttore
@@ -55,10 +28,6 @@ class Base
         
     }
 
-    /**
-     * Verifica se l'utente esista per il sistema
-     * @return boolean true se l'utente esiste, false altrimenti
-     */
     public function esiste()
     {
         // implementazione di comodo, va fatto con il db
@@ -70,24 +39,9 @@ class Base
         return $this->username;
     }
 
-    /**
-     * Imposta lo username per l'autenticazione dell'utente. 
-     * I nomi che si ritengono validi contengono solo lettere maiuscole e minuscole.
-     * La lunghezza del nome deve essere superiore a 5
-     * @param string $username
-     * @return boolean true se lo username e' ammissibile ed e' stato impostato,
-     * false altrimenti
-     */
-    public function impostaUsername($username) 
+    public function setUsername($username) 
     {
-        // utilizzo la funzione filter var specificando un'espressione regolare
-        // che implementa la validazione personalizzata
-        if (!filter_var($username, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/[a-zA-Z]{5,}/')))) 
-        {
-            return false;
-        }
         $this->username = $username;
-        echo username;
         return true;
     }
 
@@ -96,7 +50,7 @@ class Base
         return $this->password;
     }
 
-    public function impostaPassword($password)
+    public function setPassword($password)
     {
         $this->password = $password;
         return true;
@@ -107,7 +61,7 @@ class Base
         return $this->nome;
     }
 
-    public function impostaNome($nome) 
+    public function setNome($nome) 
     {
         $this->nome = $nome;
         return true;
@@ -118,7 +72,7 @@ class Base
         return $this->cognome;
     }
 
-    public function impostaCognome($cognome) 
+    public function setCognome($cognome) 
     {
         $this->cognome = $cognome;
         return true;
@@ -129,7 +83,7 @@ class Base
         return $this->tipo;
     }
 
-    public function impostaTipoUtente($tipoUser) 
+    public function setTipoUtente($tipoUser) 
     {
         switch ($tipoUser) 
         {
@@ -142,45 +96,49 @@ class Base
         }
     }
 
-    public function getEmail() {
+    public function getEmail() 
+    {
         return $this->email;
     }
 
-    public function impostaEmail($email) 
+    public function setEmail($email) 
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
             return false;
         }
         $this->email = $email;
         return true;
     }
 
-    public function getVia() {
+    public function getIndirizzo()
+    {
         return $this->via;
     }
 
-    public function impostaIndirizzo($via) 
+    public function setIndirizzo($via) 
     {
         $this->via = $via;
         return true;
     }
 
-    public function getNumeroCivico()
+    public function getCivico()
     {
         return $this->numeroCivico;
     }
 
-    public function impostaCivico($civico) 
+    public function setCivico($civico) 
     {
         $intVal = filter_var($civico, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-        if (isset($intVal)) {
+        if (isset($intVal)) 
+        {
             $this->numeroCivico = $intVal;
             return true;
         }
         return false;
     }
 
-    public function impostaCitta($citta)
+    public function setCitta($citta)
     {
         $this->citta = $citta;
         return true;
@@ -191,7 +149,7 @@ class Base
         return $this->citta;
     }
     
-    public function impostaProvincia($provincia) 
+    public function setProvincia($provincia) 
     {
         $this->provincia = $provincia;
         return true;
@@ -202,52 +160,31 @@ class Base
         return $this->provincia;
     }
 
-    // Restituisce il codice di avviamento postale dell' utente
     public function getCap() 
     {
         return $this->cap;
     }
 
-    // Imposta il codice di avviamento postale dell' utente
-    public function impostaCap($cap) 
+    public function setCap($cap) 
     {
-        if (!filter_var($cap, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/[0-9]{5}/')))) 
-        {
-            return false;
-        }
         $this->cap = $cap;
         return true;
     }
 
-    
-    // Restituisce l' id utente
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
     
-    // Imposta l' Id utente
-    public function impostaId($id){
+    public function setId($id)
+    {
         $intVal = filter_var($id, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-        if(!isset($intVal)){
+        if(!isset($intVal))
+        {
             return false;
         }
         $this->id = $intVal;
     }
-    
-    /**
-     * Compara due utenti, verificandone l'uguaglianza logica
-     * @param User $user l'utente con cui comparare $this
-     * @return boolean true se i due oggetti sono logicamente uguali, 
-     * false altrimenti
-     */
-    public function equals(User $user) {
-
-        return  $this->id == $user->id &&
-                $this->nome == $user->nome &&
-                $this->cognome == $user->cognome &&
-                $this->ruolo == $user->ruolo;
-    }
-
 }
 
 ?>

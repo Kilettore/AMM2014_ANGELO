@@ -3,20 +3,12 @@
 include_once basename(__DIR__) . '/../view/ViewDescriptor.php';
 include_once basename(__DIR__) . '/../model/Base.php';
 include_once basename(__DIR__) . '/../model/UserDatabase.php';
-//include_once basename(__DIR__) . '/../model/UserFactory.php';
 
-//private $vd;
-/**
- * Controller che gestisce gli utenti non autenticati, 
- * fornendo le funzionalita' comuni anche agli altri controller
- *
- * @author Davide Spano
- */
+// Controller che si occupa degli utenti non loggati
 class ControllerBase
 {
     const user = 'user';
     const role = 'role';
-    const imp = 'imp';
     
     public $input_search;
     
@@ -25,10 +17,7 @@ class ControllerBase
         
     }
 
-    /**
-     * Metodo per gestire l'input dell'utente. Le sottoclassi lo sovrascrivono
-     * @param type $request la richiesta da gestire
-     */
+    // Gestisce l' input degli utenti
     public function handleInput(&$request) 
     {
         // creo una nuova istanza per il descrittore
@@ -41,55 +30,41 @@ class ControllerBase
         if (isset($request["logout"])) 
         {
             $request["logout"] = '';
-            $this->logout($vd);
+            $this->logout();
         }
 
-        //serve per verificare se l' utente è già loggato
-        if ($this->loggedIn())
+        if ($request["login"] === 'Login') 
         {
-            //se l' utente risulta loggato, vado a caricare la pagina corrispondente al suo tipo
-            $this->findPageToShow();
+            $username = isset($request['username']) ? $request['username'] : '';
+            $password = isset($request['password']) ? $request['password'] : '';
+            $this->login($vd, $username, $password);
         }
-        else
+        else 
         {
-            if ($request["login"] === 'Login') 
+            if(isset($request['subpage']))
             {
-                $username = isset($request['username']) ? $request['username'] : '';
-                $password = isset($request['password']) ? $request['password'] : '';
-                $this->login($vd, $username, $password);
-            }
-            else 
-            {
-                if(isset($request['subpage']))
+                switch ($request['subpage'])
                 {
-                    switch ($request['subpage'])
-                    {
-                        case 'chisiamo':
-                            $vd->setSottoPagina("chisiamo");
-                            break;
+                    case 'chisiamo':
+                        $vd->setSottoPagina("chisiamo");
+                        break;
                 
-                        case 'partner':
-                            $vd->setSottoPagina("partner");
-                            break;
+                    case 'partner':
+                        $vd->setSottoPagina("partner");
+                        break;
                         
-                        case 'cerca':
-                            $this->input_search = $request['search'];
-                            $vd->setSottoPagina("cerca");
-                            break;
-                    }
+                    case 'cerca':
+                        $this->input_search = $request['search'];
+                        $vd->setSottoPagina("cerca");
+                        break;
                 }
-                // Caso di utente non autenticato
-                $this->showBasePage($vd);
             }
-        }      
-    }
-
-    // Funzione che controlla se un utente è già loggato
-    protected function loggedIn() 
-    {
-        return isset($_SESSION) && array_key_exists(self::user, $_SESSION);
+            // Caso di utente non autenticato
+            $this->showBasePage($vd);
+        }
     }
     
+    // Pagina base
     protected function showBasePage($vd)
     {
         
@@ -104,6 +79,7 @@ class ControllerBase
         require basename(__DIR__) . '/../view/master.php';
     }
 
+    // Pagina utente loggato
     protected function showHomeUser($vd)
     {
         $vd->setTitle("Computer Shop - Home Utente");
@@ -117,6 +93,7 @@ class ControllerBase
         require basename(__DIR__) . '/../view/master.php';
     }
     
+    // Pagina admin
     protected function showHomeComm($vd)
     {
         $vd->setTitle("Computer Shop - Home Commericiante");
@@ -130,10 +107,7 @@ class ControllerBase
         require basename(__DIR__) . '/../view/master.php';
     }
 
-   /**
-     * Seleziona quale pagina mostrare in base al ruolo dell'utente corrente
-     * @param ViewDescriptor $vd il descrittore della vista
-     */
+    // Funzione che serve per stabilire quale tipo di utente ha effettuato il login
     protected function findPageToShow() 
     {
         $user = UserDatabase::instance()->cercaUtentePerId($_SESSION[self::user], $_SESSION[self::role]);
@@ -176,138 +150,20 @@ class ControllerBase
         }
     }
 
-    /**
-     * Procedura di logout dal sistema 
-     * @param type $vd il descrittore della pagina
-     */
-    protected function logout($vd) 
+    // Funzione di logout
+    protected function logout() 
     {
         // reset array $_SESSION
         $_SESSION = array();
         // termino la validita' del cookie di sessione
-        if (session_id() != '' || isset($_COOKIE[session_name()])) {
+        if (session_id() != '' || isset($_COOKIE[session_name()])) 
+        {
             // imposto il termine di validita' al mese scorso
             setcookie(session_name(), '', time() - 2592000, '/');
         }
         // distruggo il file di sessione
         session_destroy();
-        //$this->showBasePage($vd);
     }
-
-    /**
-     * Aggiorno l'indirizzo di un utente (comune a Studente e Docente)
-     * @param User $user l'utente da aggiornare
-     * @param array $request la richiesta http da gestire
-     * @param array $msg riferimento ad un array da riempire con eventuali
-     * messaggi d'errore
-     */
-    protected function aggiornaIndirizzo($user, &$request, &$msg) {
-
-        if (isset($request['via'])) {
-            if (!$user->setVia($request['via'])) {
-                $msg[] = '<li>La via specificata non &egrave; corretta</li>';
-            }
-        }
-        if (isset($request['civico'])) {
-            if (!$user->setNumeroCivico($request['civico'])) {
-                $msg[] = '<li>Il formato del numero civico non &egrave; corretto</li>';
-            }
-        }
-        if (isset($request['citta'])) {
-            if (!$user->setCitta($request['citta'])) {
-                $msg[] = '<li>La citt&agrave; specificata non &egrave; corretta</li>';
-            }
-        }
-        if (isset($request['provincia'])) {
-            if (!$user->setProvincia($request['provincia'])) {
-                $msg[] = '<li>La provincia specificata &egrave; corretta</li>';
-            }
-        }
-        if (isset($request['cap'])) {
-            if (!$user->setCap($request['cap'])) {
-                $msg[] = '<li>Il CAP specificato non &egrave; corretto</li>';
-            }
-        }
-
-        // salviamo i dati se non ci sono stati errori
-        if (count($msg) == 0) {
-            if (UserFactory::instance()->salva($user) != 1) {
-                $msg[] = '<li>Salvataggio non riuscito</li>';
-            }
-        }
-    }
-
-    /**
-     * Aggiorno l'indirizzo email di un utente (comune a Studente e Docente)
-     * @param User $user l'utente da aggiornare
-     * @param array $request la richiesta http da gestire
-     * @param array $msg riferimento ad un array da riempire con eventuali
-     * messaggi d'errore
-     */
-    protected function aggiornaEmail($user, &$request, &$msg) {
-        if (isset($request['email'])) {
-            if (!$user->setEmail($request['email'])) {
-                $msg[] = '<li>L\'indirizzo email specificato non &egrave; corretto</li>';
-            }
-        }
-        
-        // salviamo i dati se non ci sono stati errori
-        if (count($msg) == 0) {
-            if (UserFactory::instance()->salva($user) != 1) {
-                $msg[] = '<li>Salvataggio non riuscito</li>';
-            }
-        }
-    }
-
-    /**
-     * Aggiorno la password di un utente (comune a Studente e Docente)
-     * @param User $user l'utente da aggiornare
-     * @param array $request la richiesta http da gestire
-     * @param array $msg riferimento ad un array da riempire con eventuali
-     * messaggi d'errore
-     */
-    protected function aggiornaPassword($user, &$request, &$msg) {
-        if (isset($request['pass1']) && isset($request['pass2'])) {
-            if ($request['pass1'] == $request['pass2']) {
-                if (!$user->setPassword($request['pass1'])) {
-                    $msg[] = '<li>Il formato della password non &egrave; corretto</li>';
-                }
-            } else {
-                $msg[] = '<li>Le due password non coincidono</li>';
-            }
-        }
-        
-        // salviamo i dati se non ci sono stati errori
-        if (count($msg) == 0) {
-            if (UserFactory::instance()->salva($user) != 1) {
-                $msg[] = '<li>Salvataggio non riuscito</li>';
-            }
-        }
-    }
-
-    /**
-     * Crea un messaggio di feedback per l'utente 
-     * @param array $msg lista di messaggi di errore
-     * @param ViewDescriptor $vd il descrittore della pagina
-     * @param string $okMsg il messaggio da mostrare nel caso non ci siano errori
-     */
-    protected function creaFeedbackUtente(&$msg, $vd, $okMsg) {
-        if (count($msg) > 0) {
-            // ci sono messaggi di errore nell'array,
-            // qualcosa e' andato storto...
-            $error = "Si sono verificati i seguenti errori \n<ul>\n";
-            foreach ($msg as $m) {
-                $error = $error . $m . "\n";
-            }
-            // imposto il messaggio di errore
-            $vd->setMessaggioErrore($error);
-        } else {
-            // non ci sono messaggi di errore, la procedura e' andata
-            // quindi a buon fine, mostro un messaggio di conferma
-            $vd->setMessaggioConferma($okMsg);
-        }
-    }
-
 }
 
 ?>

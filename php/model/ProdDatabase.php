@@ -61,7 +61,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per salvare i dati sdi utente e prodotto nel carrello
+        // definisco la query per salvare i dati di utente e prodotto nel carrello
         $query = 
             "INSERT INTO carrello (id_user, id_prodotto) 
              VALUES (?, ?)";
@@ -90,6 +90,7 @@ class ProdDatabase
         $precomp->close();       
     }
     
+    // Carica carrello
     public function &loadCart($id_user)
     {
         $mysqli = Database::connectDatabase();
@@ -134,6 +135,7 @@ class ProdDatabase
         }
     }
     
+    // Aggiunge un prodotto al database
     public function addProduct($nome, $tipologia, $schermo, $ram, $cpu, $hard_disk, $os, $descrizione, $art_disponibili, $prezzo)
     {
         $mysqli = Database::connectDatabase();
@@ -144,7 +146,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per aggiungere il prodotto
         $query = 
             "INSERT INTO prodotto (nome, tipologia, schermo, ram, cpu, hard_disk, os, descrizione, art_disponibili, prezzo) 
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -173,17 +175,18 @@ class ProdDatabase
         $precomp->close();       
     }
     
+    // Funzione che carica un prodotto in base all' id
     public function loadOneProduct($id_prodotto)
     {       
         $mysqli = Database::connectDatabase();
         if (!isset($mysqli))
         {
-            error_log("[loadOneProduct] impossibile inizializzare il database");
+            error_log("[loadOneProduct] Impossibile inizializzare il database");
             $mysqli->close();
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per trovare il prodotto tramite id
         $query = 
             "SELECT *
              FROM prodotto
@@ -194,7 +197,7 @@ class ProdDatabase
         $precomp->prepare($query);
         if (!$precomp) 
         {
-            error_log("[loadOneProduct] impossibile inizializzare il prepared statement");
+            error_log("[loadOneProduct] Impossibile inizializzare il prepared statement");
             $mysqli->close();
             return null;
         }
@@ -202,7 +205,7 @@ class ProdDatabase
         // Con il bind lego i punti di domanda presenti nella query e li sostituisco con le variabili che mi servono
         if (!$precomp->bind_param('i', $id_prodotto))
         {
-            error_log("[loadOneProduct] impossibile effettuare il binding in input");
+            error_log("[loadOneProduct] Impossibile effettuare il binding in input");
             $mysqli->close();
             return null;
         }
@@ -211,17 +214,18 @@ class ProdDatabase
         return $prodotto;
     }
     
+    // Aggiorna un prodotto del database
     public function updateProduct($nome, $tipologia, $schermo, $ram, $cpu, $hard_disk, $os, $descrizione, $art_disponibili, $prezzo, $id_prodotto)
     {
         $mysqli = Database::connectDatabase();
         if (!isset($mysqli))
         {
-            error_log("[addProduct] impossibile inizializzare il database");
+            error_log("[updateProduct] Impossibile inizializzare il database");
             $mysqli->close();
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per aggiornare un prodotto
         $query = 
             "UPDATE prodotto 
              SET prodotto.nome = ?, 
@@ -241,7 +245,7 @@ class ProdDatabase
         $precomp->prepare($query);
         if (!$precomp) 
         {
-            error_log("[addProduct] impossibile inizializzare il prepared statement");
+            error_log("[updateProduct] Impossibile inizializzare il prepared statement");
             $mysqli->close();
             return null;
         }
@@ -249,7 +253,7 @@ class ProdDatabase
         // Con il bind lego i punti di domanda presenti nella query e li sostituisco con le variabili che mi servono
         if (!$precomp->bind_param('ssssssssidi', $nome, $tipologia, $schermo, $ram, $cpu, $hard_disk, $os, $descrizione, $art_disponibili, $prezzo, $id_prodotto)) 
         {
-            error_log("[addProduct] impossibile effettuare il binding in input");
+            error_log("[updateProduct] Impossibile effettuare il binding in input");
             $mysqli->close();
             return null;
         }      
@@ -260,6 +264,7 @@ class ProdDatabase
         $precomp->close();       
     }
     
+    // Elimina un prodotto dal database
     public function deleteProduct($id_prodotto)
     {       
         $mysqli = Database::connectDatabase();
@@ -270,7 +275,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per eliminare il prodotto in base all' id
         $query = 
             "DELETE FROM prodotto
              WHERE prodotto.id_prodotto = ?";
@@ -296,12 +301,13 @@ class ProdDatabase
         $precomp->execute();
     }
     
+    // Elimina un prodotto dal carrello
     public function deleteFromCart($id_carrello)
     {               
         $mysqli = Database::connectDatabase();
         if (!isset($mysqli))
         {
-            error_log("[deleteFromCart] impossibile inizializzare il database");
+            error_log("[deleteFromCart] Impossibile inizializzare il database");
             $mysqli->close();
             return null;
         }
@@ -333,12 +339,14 @@ class ProdDatabase
         $precomp->execute();
     }
     
+    // Funzione che si attiva quando un utente acquista i prodotti contenuti nel carrello
+    // Viene eseguita una transazione
     public function deleteUserCart($id_user)
     {               
         $mysqli = Database::connectDatabase();
         if (!isset($mysqli))
         {
-            error_log("[deleteUserCart] impossibile inizializzare il database");
+            error_log("[deleteUserCart] Impossibile inizializzare il database");
             $mysqli->close();
             return null;
         }
@@ -408,6 +416,7 @@ class ProdDatabase
         $precomp->close();
     }
     
+    // Ricerca del prodotto
     public function &searchProduct($input_search)
     {
         // Creo una stringa che contiene i '%', per facilitare la ricerca
@@ -422,7 +431,7 @@ class ProdDatabase
             return null;
         }
 
-        // definisco la query per trovare l' utente
+        // definisco la query per cercare il prodotto
         $query = 
             "SELECT *
              FROM prodotto
@@ -456,6 +465,7 @@ class ProdDatabase
         }
     }
     
+    // Restituisce un array che contiene i prodotti del carrello, più l' id del carrello
     private function &caricaProdottiDaStatement(mysqli_stmt $precomp) 
     {
         $prodotti = array();
@@ -498,6 +508,7 @@ class ProdDatabase
         return $prodotti;
     }
     
+    // Restituisce un array che contiene i prodotti cercati
     private function &caricaCercaDaStatement(mysqli_stmt $precomp) 
     {
         $prodotti = array();
@@ -539,6 +550,7 @@ class ProdDatabase
         return $prodotti;
     }
     
+    // Restituisce un solo prodotto
     private function caricaProdottoDaStatement(mysqli_stmt $precomp) 
     {   
         if (!$precomp->execute())
@@ -573,6 +585,7 @@ class ProdDatabase
         return $prodotto;
     }
     
+    // Crea un oggetto prodotto partendo da un array
     public function creaProdottoDaArray($row) 
     {
         $prodotto = new Prodotto();

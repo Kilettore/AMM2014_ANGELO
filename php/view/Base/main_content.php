@@ -38,14 +38,15 @@ switch ($vd->getSottoPagina())
             </td>
         </tr>
         <tr><td colspan = 2><p class="nome_prodotto"><?= $row->nome ?></p></td></tr>
-        <tr><td class="td_main"><b>Tipo:</b><?= $row->tipologia ?></td><td><b>Schermo:</b><?= $row->schermo ?></td></tr>
-        <tr><td colspan = 2><b>Ram:</b><?= $row->ram ?></td></tr>
+        <tr><td class="td_main"><b>Tipo:</b><?= $row->tipologia ?></td><td rowspan = 2><b>Schermo:</b><?= $row->schermo ?></td></tr>
+        <tr><td><b>Ram:</b><?= $row->ram ?></td></tr>
         <tr><td colspan = 2><b>Cpu:</b><?= $row->cpu ?></td></tr>
         <tr><td colspan = 2><b>Hard Disk:</b><?= $row->hard_disk ?></td></tr>
         <tr><td colspan = 2><b>Sistema Operativo:</b><?= $row->os ?></td></tr>
         <tr><td colspan = 2><b>Quantità disponibile:</b><?= $row->art_disponibili ?></td></tr>
         <tr><td colspan = 2><b>Prezzo:</b><?= $row->prezzo ?></td></tr>
         </table>
+        <br>
         <hr>
     <?php
     }

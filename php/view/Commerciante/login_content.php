@@ -10,8 +10,13 @@
     !</span>
 
     <form action="index.php" method="post">
-            <input id="pulsante_logout" type="submit" name="logout" value="Logout">
-            <button id="pulsante_carrello" type="submit" name="subpage" value="carrello"><img class="imgcarrello" src="images/carrello.png"><span class="text_button">Carrello</span></button>
+        <button id="pulsante_carrello" type="submit" name="subpage" value="carrello">
+            <img class="imgcarrello" src="images/carrello.png"><span class="text_button">Carrello</span>
+        </button>
+        <button id="settings" type="submit" name="subpage" value="impostazioni_user">
+            <img class="imgsettings" src="images/settings.png">
+        </button>
+        <input id="pulsante_logout" type="submit" name="logout" value="Logout">
     </form>
 </div>
 

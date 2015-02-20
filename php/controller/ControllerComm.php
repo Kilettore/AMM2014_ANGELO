@@ -3,16 +3,11 @@
 include_once 'ControllerBase.php';
 include_once basename(__DIR__) . '/../model/ProdDatabase.php';
 
-/**
- * Controller che gestisce la modifica dei dati dell'applicazione relativa ai 
- * Docenti da parte di utenti con ruolo Docente o Amministratore 
- *
- * @author Davide Spano
- */
+// Controller commerciante, si occupa della gestione degli admin
 class ControllerComm extends ControllerBase 
 {
     public $prodotto;
-    //private $input_search;
+    public $user;
 
     // Costruttore
     public function __construct() 
@@ -61,7 +56,6 @@ class ControllerComm extends ControllerBase
         if(isset($request['modifica']))
         {
             $this->prodotto = ProdDatabase::instance()->loadOneProduct($request['modifica']);
-            
             $vd->setSottoPagina("modifica");
         }
                     
@@ -126,6 +120,28 @@ class ControllerComm extends ControllerBase
                 case 'cerca':
                     $this->input_search = $request['search'];
                     $vd->setSottoPagina("cerca");
+                    break;
+                
+                // Apre la pagina per cambiare i dati dell' utente
+                case 'impostazioni_user':
+                    $this->user = UserDatabase::instance()->cercaUtentePerId($_SESSION['user'], $_SESSION['role']);
+                    $vd->setSottoPagina("modifica_utente");
+                    break;
+                
+                // Pagina di conferma per il cambio dei dati dell' utente
+                case 'updated_user':
+                    UserDatabase::instance()->updateUser($request['id_user'],
+                                                         $request['nome'],
+                                                         $request['cognome'],
+                                                         $request['username'],
+                                                         $request['password'],
+                                                         $request['indirizzo'],
+                                                         $request['mail'],
+                                                         $request['civico'],
+                                                         $request['citta'],
+                                                         $request['cap'],
+                                                         $request['provincia']);
+                    $vd->setSottoPagina("result_user");
                     break;
             }
         }

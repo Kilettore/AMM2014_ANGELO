@@ -6,6 +6,12 @@ echo "<span class='subpage_text'>Risultati della ricerca</span><hr>";
 
 // Cerco i prodotti da mostrare nella tabella
 $result = ProdDatabase::instance()->searchProduct($this->input_search);
+
+if(count($result) === 0)
+{
+    echo "<p class='subpage_indirizzo'><i>Nessun risultato trovato</i><br>";
+}
+
 foreach($result as $row)
 {
 ?>

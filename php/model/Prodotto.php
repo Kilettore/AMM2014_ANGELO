@@ -1,39 +1,18 @@
 <?php
 
-// Classe per rappresentare un generico utente
+// Classe per rappresentare un generico prodotto
 class Prodotto
 {
-    // Id dell' utente
     private $nome;
-
-    // Username dell' utente
     private $tipologia;
-    
-    // Password dell' utente
     private $schermo;
-    
-    // Nome dell' utente
     private $ram;
-    
-    // Cognome dell' utente
     private $cpu;
-    
-    // Email dell' utente
     private $hard_disk;
-    
-    // Indirizzo dell' utente
     private $os;
-     
- 
     private $descrizione;
-    
-    // Numero civico
     private $art_disponibili;
-    
-    // Citta
     private $prezzo;
-    
-    // Provincia di residenza
     private $id_prodotto;
     private $id_carrello;
     
