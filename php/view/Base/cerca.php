@@ -33,6 +33,7 @@ foreach($result as $row)
     <tr><td colspan = 2><b>Quantità disponibile:</b> <?= $row->getArtDisponibili() ?> </td></tr>
     <tr><td colspan = 2><b>Prezzo:</b> <?= $row->getPrezzo() ?> </td></tr>
     </table>
+    <br>
     <hr>
 <?php
 }

@@ -38,6 +38,7 @@ foreach($result as $row)
     </tr>
     <tr><td><b>Prezzo:</b> <?= $row->getPrezzo() ?> </td></tr>
     </table>
+    <br>
     <hr>
 <?php
 }

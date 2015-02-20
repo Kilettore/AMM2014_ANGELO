@@ -48,6 +48,7 @@ foreach($result as $row)
     <tr><td><b>Quantità disponibile:</b> <?= $row->getArtDisponibili() ?></td></tr>
     <tr><td><b>Prezzo:</b> <?= $row->getPrezzo() ?> </td></tr>
     </table>
+    <br>
     <hr>
 <?php
 }
