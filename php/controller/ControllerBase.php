@@ -30,6 +30,7 @@ class ControllerBase
         if (isset($request["logout"])) 
         {
             $request["logout"] = '';
+            $request["login"] = null;
             $this->logout();
         }
 

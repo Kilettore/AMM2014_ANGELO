@@ -23,7 +23,6 @@ class ControllerMain
             if($request["logout"] === 'Logout') 
             {
                 $cont = new ControllerBase();
-                $request['login'] = '';
                 $cont->handleInput($request);
             }
         }
