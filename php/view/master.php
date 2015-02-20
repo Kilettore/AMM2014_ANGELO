@@ -11,23 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><?= $vd->getTitle() ?></title>
     
-    <link rel="stylesheet" type="text/css" href="../../style.css">
-   
-    
-        
-        
-        
-    <?php
-        /*foreach ($vd->getScripts() as $script) 
-        {
-    ?>
-            <script type="text/javascript" src="<?= $script ?>"></script>
-    <?php
-        }*/
-    ?>
-            
-    
-    
+    <link rel="stylesheet" type="text/css" href="../style.css"> 
 </head>
 <body>
     <!-- Il div main è quello che contiene tutti gli altri div della pagina -->
