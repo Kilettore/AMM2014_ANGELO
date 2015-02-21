@@ -28,9 +28,12 @@ foreach($result as $row)
     <tr><td id="td_main"><b>Tipo:</b> <?= $row->getTipologia() ?></td><td rowspan = 2><b>Schermo:</b><?= $row->getSchermo() ?> </td></tr>
     <tr><td><b>Ram:</b> <?= $row->getRam() ?></td></tr>
     <tr><td><b>Cpu:</b> <?= $row->getCpu() ?></td>
-        <td rowspan = 2 id="addCart"><form action="index.php" method="post">
-                                        <button class="button_add_cart" type="submit" name="carrello" value="<?= $row->getIdProdotto() ?>">Aggiungi al carrello</button>
-                                     </form>
+        <td rowspan = 2>
+            <?php if($row->getArtDisponibili() > 0) 
+                   echo "<form action='index.php' method='post'>
+                            <button class='button_add_cart' type='submit' name='carrello' value=". $row->getIdProdotto() .">Aggiungi al carrello</button>
+                         </form>";
+            ?>
         </td>
     </tr>
     <tr><td><b>Hard Disk:</b> <?= $row->getHardDisk() ?></td></tr>

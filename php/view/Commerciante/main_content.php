@@ -64,9 +64,12 @@ switch ($vd->getSottoPagina())
         <tr><td class="td_main"><b>Tipo:</b> <?= $row->tipologia ?></td><td rowspan= 2><b>Schermo:</b> <?= $row->schermo?> </td></tr>
         <tr><td><b>Ram:</b> <?= $row->ram ?></td></tr>
         <tr><td><b>Cpu:</b> <?= $row->cpu ?></td>
-            <td rowspan = 2 id="addCart"><form action="index.php" method="post">
-                                            <button class="button_add_cart" type="submit" name="carrello" value="<?= $row->id_prodotto ?>">Aggiungi al carrello</button>
-                                         </form>
+            <td rowspan = 2 id="addCart">
+                <?php if($row->art_disponibili > 0) 
+                        echo "<form action='index.php' method='post'>
+                                <button class='button_add_cart' type='submit' name='carrello' value=". $row->id_prodotto .">Aggiungi al carrello</button>
+                              </form>";
+                ?>
             </td>
         </tr>
         <tr><td><b>Hard Disk:</b> <?= $row->hard_disk ?></td></tr>

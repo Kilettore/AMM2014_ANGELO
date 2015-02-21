@@ -6,14 +6,20 @@
     	<td><input class="mod" type="text" name="nome"></td>
             </tr>
         
-        <tr><td><label for="tipologia">Tipologia</label></td>
-        <td><select id="tipologia" name="tipologia">
-            <option value="laptop">Laptop</option>
-            <option value="desktop">Desktop</option>
-            <option value="tablet">Tablet</option>
-            <option value="smartphone">Smartphone</option>
-        </select>
-        </td>
+        <tr><td>
+                <label for="tipologia">Tipologia</label>
+            </td>
+            <td>
+                <!-- Volevo implementare l' autofocus ma essedo una funzione introdotta in html 5 ho lasciato stare,
+                     La versione di chrome presente nella macchina virtuale non è aggiornata,
+                     firefox non è proprio compatibile -->
+                <select id="tipologia" name="tipologia">
+                    <option value="laptop">Laptop</option>
+                    <option value="desktop">Desktop</option>
+                    <option value="tablet">Tablet</option>
+                    <option value="smartphone">Smartphone</option>
+                </select>
+            </td>
         </tr>
         
         <tr><td><label for="schermo">Schermo</label></td>

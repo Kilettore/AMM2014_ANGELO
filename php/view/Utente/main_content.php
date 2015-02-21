@@ -53,9 +53,12 @@ switch ($vd->getSottoPagina())
         <tr><td colspan = 2><b>Hard Disk:</b> <?= $row->hard_disk ?></td></tr>
         <tr><td colspan = 2><b>Sistema Operativo:</b> <?= $row->os ?></td></tr>
         <tr><td><b>Quantità disponibile:</b> <?= $row->art_disponibili?> </td>
-            <td rowspan = 2><form action="index.php" method="post">
-                                <button class="button_add_cart" type="submit" name="carrello" value="<?=$row->id_prodotto?>">Aggiungi al carrello</button>
-                            </form>
+            <td rowspan = 2>
+                <?php if($row->art_disponibili > 0) 
+                        echo "<form action='index.php' method='post'>
+                                <button class='button_add_cart' type='submit' name='carrello' value=". $row->id_prodotto .">Aggiungi al carrello</button>
+                              </form>";
+                ?>
             </td>
         </tr>
         <tr><td colspan = 2><b>Prezzo:</b> <?= $row->prezzo?> </td></tr>
